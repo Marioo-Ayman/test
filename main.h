@@ -44,4 +44,6 @@ int print_int(va_list types, char buffer[]);
 
 int handle_write_char(char c, char buffer[]);
 int write_number(int is_positive, int ind, char buffer[]);
+int write_num(int ind, char bff[], char extra_c);
+
 #endif
