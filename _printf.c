@@ -34,7 +34,7 @@ int _printf(const char *format, ...)
 		{
 			print_buffer(buffer, &buff_ind);
 			++i;
-			printed = handle_print(format, &i, list, buffer)
+			printed = handle_print(format, &i, list, buffer );
 			if (printed == -1)
 				return (-1);
 			printed_chars += printed;
