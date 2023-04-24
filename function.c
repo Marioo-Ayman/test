@@ -80,5 +80,6 @@ int print_int(va_list types, char buffer[])
 
 	i++;
 
-	return (write_number(is_negative, i, buffer));
+	/*return (write_number(is_negative, i, buffer));*/
+	return write(1, &buffer, i);
 }
