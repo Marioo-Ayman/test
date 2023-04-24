@@ -42,5 +42,6 @@ int print_percent(va_list types, char buffer[]);
 /* Functions to print numbers */
 int print_int(va_list types, char buffer[]);
 
-
+int handle_write_char(char c, char buffer[]);
+int write_number(int is_positive, int ind, char buffer[]);
 #endif
