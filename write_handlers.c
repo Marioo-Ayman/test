@@ -6,7 +6,7 @@
  * @buffer: Buffer array to handle print
  * Return: Number of chars printed.
  */
-int handle_write_char(char c, char buffer[])
+int handle_write_char(char c , char buffer[])
 {
 	return (write(1, &buffer[0], 1));
 }

@@ -10,7 +10,7 @@ int print_char(va_list types, char buffer[])
 {
 	char c = va_arg(types, int);
 
-	return (handle_write_char(c, buffer));
+	return (handle_write_char(c , buffer));
 }
 
 /**
@@ -21,7 +21,7 @@ int print_char(va_list types, char buffer[])
  */
 int print_string(va_list types, char buffer[])
 {
-	int length = 0, i;
+	int length = 0;
 	char *str = va_arg(types, char *);
 
 	UNUSED(buffer);
@@ -51,7 +51,7 @@ int print_percent(va_list types, char buffer[])
  * @buffer: Buffer array to handle print
  * Return: Number of chars printed
  */
-int print_int(va_list types, char buffer[])
+/*int print_int(va_list types, char buffer[])
 {
 	int i = BUFF_SIZE - 2;
 	int is_negative = 0;
@@ -81,4 +81,4 @@ int print_int(va_list types, char buffer[])
 	i++;
 
 	return (write_number(is_negative, i, buffer));
-}
+}*/
