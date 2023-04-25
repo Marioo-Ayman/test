@@ -28,7 +28,9 @@ struct fmt
 typedef struct fmt fmt_t;
 
 
-int _printf(const char *format, ...);
+int _printf(char *str, ...);
+char * _itoa(int i, char *strout, int base);
+char *_strrev (char *str);
 int handle_print(const char *fmt, int *i,
 va_list list, char buffer[]);
 

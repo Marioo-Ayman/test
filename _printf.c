@@ -1,63 +1,140 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include "main.h"
 
-void print_buffer(char buffer[], int *buff_ind);
+/**
+ * _strrev - reverses a string
+ * @str: the string to be reversed
+ *
+ * Return: a pointer to the reversed string
+ */
+char *_strrev(char *str)
+{
+    int i;
+    int len = 0;
+    char c;
+
+    if (!str)
+        return (NULL);
+
+    while (str[len] != '\0')
+    {
+        len++;
+    }
+
+    for (i = 0; i < (len / 2); i++)
+    {
+        c = str[i];
+        str[i] = str[len - i - 1];
+        str[len - i - 1] = c;
+    }
+
+    return (str);
+}
 
 /**
- * _printf - Printf function
- * @format: format.
- * Return: Printed chars.
+ * _itoa - converts an integer to a string
+ * @i: the integer to be converted
+ * @strout: the output string
+ * @base: the base to use for the conversion
+ *
+ * Return: a pointer to the output string
+ */
+char *_itoa(int i, char *strout, int base)
+{
+    char *str = strout;
+    int digit, sign = 0;
+
+    if (i < 0)
+    {
+        sign = 1;
+        i *= -1;
+    }
+
+    while (i)
+    {
+        digit = i % base;
+        *str = (digit > 9) ? ('A' + digit - 10) : '0' + digit;
+        i = i / base;
+        str++;
+    }
+
+    if (sign)
+    {
+        *str++ = '-';
+    }
+
+    *str = '\0';
+    _strrev(strout);
+
+    return (strout);
+}
+
+/**
+ * print - prints a formatted string to stdout
+ * @str: the format string
+ *
+ * Return: the number of characters written
  */
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, printed_chars = 0;
-	int buff_ind = 0;
-	va_list list;
-	char buffer[BUFF_SIZE];
+	va_list args;
+	int i = 0, j = 0;
+	char buffer[1024] = {0}, *s = NULL, c = '\0';
 
-	if (format == NULL)
-		return (-1);
+	va_start(args, format);
 
-	va_start(list, format);
-
-	for (i = 0; format && format[i] != '\0'; i++)
+	while (format && format[i])
 	{
-		if (format[i] != '%')
+		if (format[i] == '%')
 		{
-			buffer[buff_ind++] = format[i];
-			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind);
-			/* write(1, &format[i], 1);*/
-			printed_chars++;
+			i++;
+			switch (format[i])
+			{
+			case 'c':
+				c = (char)va_arg(args, int);
+				buffer[j] = c;
+				j++;
+				break;
+			case 's':
+				s = va_arg(args, char *);
+				if (s == NULL)
+					s = "(null)";
+				strcpy(&buffer[j], s);
+				j += strlen(s);
+				break;
+			case '%':
+				buffer[j] = '%';
+				j++;
+				break;
+            case 'd':
+                _itoa(va_arg( vl, int ), tmp, 10);
+                strcpy(&buff[j], tmp);
+                j += strlen(tmp);
+                break;
+            case 'i':
+                _itoa(va_arg( vl, int ), tmp, 10);
+                strcpy(&buff[j], tmp);
+                j += strlen(tmp);
+                break;
+			default:
+				buffer[j] = '%';
+				j++;
+				buffer[j] = format[i];
+				j++;
+				break;
+			}
 		}
 		else
 		{
-			print_buffer(buffer, &buff_ind);
-			++i;
-			printed = handle_print(format, &i, list, buffer );
-			if (printed == -1)
-				return (-1);
-			printed_chars += printed;
+			buffer[j] = format[i];
+			j++;
 		}
+		i++;
 	}
-
-	print_buffer(buffer, &buff_ind);
-
-	va_end(list);
-
-	return (printed_chars);
+	write(1, buffer, j);
+	va_end(args);
+	return (j);
 }
-
-/**
- * print_buffer - Prints the contents of the buffer if it exist
- * @buffer: Array of chars
- * @buff_ind: Index at which to add next char, represents the length.
- */
-void print_buffer(char buffer[], int *buff_ind)
-{
-	if (*buff_ind > 0)
-		write(1, &buffer[0], *buff_ind);
-
-	*buff_ind = 0;
-}
-
