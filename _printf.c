@@ -12,26 +12,26 @@
  */
 char *_strrev(char *str)
 {
-    int i;
-    int len = 0;
-    char c;
+	int i;
+	int len = 0;
+	char c;
 
-    if (!str)
-        return (NULL);
+	if (!str)
+		return (NULL);
 
-    while (str[len] != '\0')
-    {
-        len++;
-    }
+	while (str[len] != '\0')
+	{
+		len++;
+	}
 
-    for (i = 0; i < (len / 2); i++)
-    {
-        c = str[i];
-        str[i] = str[len - i - 1];
-        str[len - i - 1] = c;
-    }
+	for (i = 0; i < (len / 2); i++)
+	{
+		c = str[i];
+		str[i] = str[len - i - 1];
+		str[len - i - 1] = c;
+	}
 
-    return (str);
+	return (str);
 }
 
 /**
@@ -44,37 +44,37 @@ char *_strrev(char *str)
  */
 char *_itoa(int i, char *strout, int base)
 {
-    char *str = strout;
-    int digit, sign = 0;
+	char *str = strout;
+	int digit, sign = 0;
 
-    if (i < 0)
-    {
-        sign = 1;
-        i *= -1;
-    }
+	if (i < 0)
+	{
+		sign = 1;
+		i *= -1;
+	}
 
-    while (i)
-    {
-        digit = i % base;
-        *str = (digit > 9) ? ('A' + digit - 10) : '0' + digit;
-        i = i / base;
-        str++;
-    }
+	while (i)
+	{
+		digit = i % base;
+		*str = (digit > 9) ? ('A' + digit - 10) : '0' + digit;
+		i = i / base;
+		str++;
+	}
 
-    if (sign)
-    {
-        *str++ = '-';
-    }
+	if (sign)
+	{
+		*str++ = '-';
+	}
 
-    *str = '\0';
-    _strrev(strout);
+	*str = '\0';
+	_strrev(strout);
 
-    return (strout);
+	return (strout);
 }
 
 /**
- * print - prints a formatted string to stdout
- * @str: the format string
+ * _printf - prints a formatted string to stdout
+ * @format: the format string
  *
  * Return: the number of characters written
  */
@@ -82,7 +82,7 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	int i = 0, j = 0;
-	char buffer[1024] = {0}, *s = NULL, c = '\0';
+	char buffer[1024] = {0}, *s = NULL, c = '\0', tmp[20];
 
 	va_start(args, format);
 
@@ -109,16 +109,16 @@ int _printf(const char *format, ...)
 				buffer[j] = '%';
 				j++;
 				break;
-            case 'd':
-                _itoa(va_arg( vl, int ), tmp, 10);
-                strcpy(&buff[j], tmp);
-                j += strlen(tmp);
-                break;
-            case 'i':
-                _itoa(va_arg( vl, int ), tmp, 10);
-                strcpy(&buff[j], tmp);
-                j += strlen(tmp);
-                break;
+			case 'd':
+				_itoa(va_arg(args, int), tmp, 10);
+				strcpy(&buffer[j], tmp);
+				j += strlen(tmp);
+				break;
+			case 'i':
+				_itoa(va_arg(args, int), tmp, 10);
+				strcpy(&buffer[j], tmp);
+				j += strlen(tmp);
+				break;
 			default:
 				buffer[j] = '%';
 				j++;
